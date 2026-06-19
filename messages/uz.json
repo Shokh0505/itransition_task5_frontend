@@ -1,0 +1,15 @@
+{
+    "Navbar": {
+        "language": "Til",
+        "chooseLanguage": "Tilni tanlang",
+        "languegeOptions": {
+            "en": "Inglizcha",
+            "uz": "O'zbekcha"
+        },
+        "seedPlaceholder": "Urug'ni kiriting...",
+        "seed": "Urug'",
+        "generateSeed": "Urug' yaratish",
+        "likes": "Yuraklar",
+        "averageLikes": "O'rtacha yuraklar"
+    }
+}

@@ -6,19 +6,21 @@ import { NavbarDropdown } from "./navbarDropdown";
 import { NavbarLikes } from "./navbarLikes";
 import { SeedGenerator } from "./seedGenerator";
 import { useNavStore } from "@/store/navbar";
+import { useTranslations } from "next-intl";
 
 export function Navbar() {
     const { view, setView } = useNavStore();
+    const t = useTranslations("Navbar");
 
     return (
         <nav className="bg-slate-100 px-4 py-4 flex justify-between items-center">
             <div className="flex items-center justify-start gap-4">
                 <div className="flex items-center gap-4">
-                    <div className="text-sm">Language: </div>
+                    <div className="text-sm">{t("language")}: </div>
                     <NavbarDropdown />
                 </div>
                 <div className="flex items-center gap-4">
-                    <div className="text-sm">Seed:</div>
+                    <div className="text-sm">{t("seed")}:</div>
                     <SeedGenerator />
                 </div>
                 <NavbarLikes />
