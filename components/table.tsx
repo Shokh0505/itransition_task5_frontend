@@ -1,9 +1,10 @@
 "use client";
 
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { TableCollapse } from "./tableCollapse";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { TableCard } from "./tableCard";
+import { TableList } from "./tableList";
+import { useNavStore } from "@/store/navbar";
 
 const SONGS = [
     {
@@ -89,6 +90,7 @@ export function Table() {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [songID, setSongID] = useState<null | number>(null)
     const t = useTranslations("Table");
+    const { view } = useNavStore();
 
     const handleSelectSong = (id: number) => {
         if (songID === id) {
@@ -99,6 +101,7 @@ export function Table() {
             setIsCollapsed(true);
         }
     }
+
 
     return (
         <div>
@@ -114,21 +117,28 @@ export function Table() {
                     </tr>
                 </thead>
                 <tbody>
-                    {SONGS.map(song => (
-                        <Fragment key={song.id}>
-                            <tr onClick={() => handleSelectSong(song.id)}>
-                                <td className="px-4 py-3">
-                                    {songID === song.id && isCollapsed ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                                </td>
-                                <td className="px-4 py-3">{song.id}</td>
-                                <td className="px-4 py-3">{song.name}</td>
-                                <td className="px-4 py-3">{song.artist}</td>
-                                <td className="px-4 py-3">{song.album}</td>
-                                <td className="px-4 py-3">{song.genre}</td>
-                            </tr>
-                            <TableCollapse isOpen={isCollapsed && songID === song.id} />
-                        </Fragment>
-                    ))}
+                    {
+                        view === 'list' && (
+                            (
+                                SONGS.map((song) => (
+                                    <TableList key={song.id} song={song} songID={songID} isCollapsed={isCollapsed} handleSelectSong={handleSelectSong} />
+                                ))
+                            )
+                        )
+                    }
+                    <tr>
+                        <td colSpan={6}>
+                            <div className="px-4 py-3 grid grid-cols-3 gap-4">
+                                {
+                                    view === 'gallery' && (
+                                        SONGS.map((song) => (
+                                            <TableCard key={song.id} song={song} isActive={song.id === songID} onClick={() => handleSelectSong(song.id)} />
+                                        ))
+                                    )
+                                }
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
