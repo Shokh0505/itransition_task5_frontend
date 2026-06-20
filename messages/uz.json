@@ -11,5 +11,15 @@
         "generateSeed": "Urug' yaratish",
         "likes": "Yuraklar",
         "averageLikes": "O'rtacha yuraklar"
+    },
+    "Table": {
+        "song": "Qo'shiq",
+        "artist": "Artist",
+        "album": "Albom",
+        "genre": "Janr",
+        "from": "dan",
+        "by": "tomonidan",
+        "tags": "teglar"
     }
+
 }
