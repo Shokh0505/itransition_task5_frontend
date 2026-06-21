@@ -1,0 +1,24 @@
+{
+    "Navbar": {
+        "language": "Language",
+        "chooseLanguage": "Choose language",
+        "languegeOptions": {
+            "en": "English",
+           "uz": "Uzbek"
+        },
+        "seed": "Seed",
+        "seedPlaceholder": "Enter seed...",
+        "generateSeed": "Generate Seed",
+        "likes": "Likes",
+        "averageLikes": "Average Likes"
+    },
+    "Table": {
+        "song": "Song",
+        "artist": "Artist",
+        "album": "Album",
+        "genre": "Genre",
+        "from": "From",
+        "by": "By",
+        "tags": "Tags"
+    }
+}

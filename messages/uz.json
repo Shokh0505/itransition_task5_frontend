@@ -1,0 +1,25 @@
+{
+    "Navbar": {
+        "language": "Til",
+        "chooseLanguage": "Tilni tanlang",
+        "languegeOptions": {
+            "en": "Inglizcha",
+            "uz": "O'zbekcha"
+        },
+        "seedPlaceholder": "Urug'ni kiriting...",
+        "seed": "Urug'",
+        "generateSeed": "Urug' yaratish",
+        "likes": "Yuraklar",
+        "averageLikes": "O'rtacha yuraklar"
+    },
+    "Table": {
+        "song": "Qo'shiq",
+        "artist": "Artist",
+        "album": "Albom",
+        "genre": "Janr",
+        "from": "dan",
+        "by": "tomonidan",
+        "tags": "teglar"
+    }
+
+}
