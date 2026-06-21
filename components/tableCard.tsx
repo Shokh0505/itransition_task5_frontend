@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { IoIosMusicalNotes, IoIosPlayCircle } from "react-icons/io";
 
-interface Song {
+export interface Song {
     id: number;
     name: string;
     artist: string;
