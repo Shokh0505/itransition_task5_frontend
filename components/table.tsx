@@ -5,6 +5,9 @@ import { useTranslations } from "next-intl";
 import { TableCard } from "./tableCard";
 import { TableList } from "./tableList";
 import { useNavStore } from "@/store/navbar";
+import { useMusic } from "@/hooks/useMusic";
+import { useSearchParams } from "next/navigation";
+import { useSeedStore } from "@/store/seedStore";
 
 const SONGS = [
     {
@@ -91,6 +94,11 @@ export function Table() {
     const [songID, setSongID] = useState<null | number>(null)
     const t = useTranslations("Table");
     const { view } = useNavStore();
+    const params = useSearchParams();
+    const page = params.get("page") || 1;
+    const { seed } = useSeedStore();
+    const language = params.get("lang") || "en";
+    const { isPending, error, music } = useMusic(page, seed, language);
 
     const handleSelectSong = (id: number) => {
         if (songID === id) {
@@ -118,9 +126,20 @@ export function Table() {
                 </thead>
                 <tbody>
                     {
-                        view === 'list' && (
+                        isPending && (
+                            <tr>
+                                <td colSpan={6}>
+                                    <div className="px-4 py-3">
+                                        <div className="text-center text-gray-500">Loading...</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        )
+                    }
+                    {
+                        !isPending && !error && view === 'list' && (
                             (
-                                SONGS.map((song) => (
+                                music.map((song) => (
                                     <TableList key={song.id} song={song} songID={songID} isCollapsed={isCollapsed} handleSelectSong={handleSelectSong} />
                                 ))
                             )
@@ -130,8 +149,8 @@ export function Table() {
                         <td colSpan={6}>
                             <div className="px-4 py-3 grid grid-cols-3 gap-4">
                                 {
-                                    view === 'gallery' && (
-                                        SONGS.map((song) => (
+                                    !isPending && !error && view === 'gallery' && (
+                                        music.map((song) => (
                                             <TableCard key={song.id} song={song} isActive={song.id === songID} onClick={() => handleSelectSong(song.id)} />
                                         ))
                                     )
