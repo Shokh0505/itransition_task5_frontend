@@ -3,8 +3,14 @@ import { AiOutlineLike } from "react-icons/ai";
 import { BiSolidLike } from "react-icons/bi";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
+import type { Song } from "./tableCard";
 
-export const TableCollapse = ({ isOpen }: { isOpen: boolean }) => {
+interface TableCollapseProps {
+    isOpen: boolean;
+    song: Song;
+}
+
+export const TableCollapse = ({ isOpen, song }: TableCollapseProps) => {
     const isLiked = true;
     const audioRef = useRef<HTMLAudioElement>(null);
     const t = useTranslations("Table");
@@ -30,7 +36,7 @@ export const TableCollapse = ({ isOpen }: { isOpen: boolean }) => {
                                             isLiked ? <BiSolidLike size={24} /> : <AiOutlineLike size={24} />
                                         }
                                         <div className="w-px bg-black h-full" />
-                                        <span className="text-sm">23 likes</span>
+                                        <span className="text-sm">{song.likes} likes</span>
                                     </div>
                                 </div>
                             </div>
@@ -38,7 +44,7 @@ export const TableCollapse = ({ isOpen }: { isOpen: boolean }) => {
                             <div className="flex-2">
                                 <div className="flex items-center justify-start gap-2">
                                     <h4 className="text-xl font-semibold">
-                                        12. Huge Ponies
+                                        {song.id}. {song.name}
                                     </h4>
                                     <audio controls ref={audioRef}>
                                         <source src="/Rihanna.mp3" />
@@ -46,10 +52,10 @@ export const TableCollapse = ({ isOpen }: { isOpen: boolean }) => {
                                     </audio>
                                 </div>
                                 <div>
-                                    {t("from")} <span className="font-semibold">Oh, my god</span> {t("by")} <span className="font-semibold">Elton Smith</span>
+                                    {t("from")} <span className="font-semibold">{song.album}</span> {t("by")} <span className="font-semibold">{song.artist}</span>
                                 </div>
                                 <div>
-                                    {t("tags")} : <span className="font-semibold">Rock</span>
+                                    {t("tags")} : <span className="font-semibold">{song.genre}</span>
                                 </div>
                             </div>
                         </div>

@@ -98,7 +98,8 @@ export function Table() {
     const page = params.get("page") || 1;
     const { seed } = useSeedStore();
     const language = params.get("lang") || "en";
-    const { isPending, error, music } = useMusic(page, seed, language);
+    const { averageLike } = useNavStore();
+    const { isPending, error, music } = useMusic(page, seed, averageLike, language);
 
     const handleSelectSong = (id: number) => {
         if (songID === id) {

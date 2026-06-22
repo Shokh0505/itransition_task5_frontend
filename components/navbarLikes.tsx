@@ -1,10 +1,10 @@
 "use client"
 import { Slider } from "@/components/ui/slider"
-import { useState } from "react"
 import { useTranslations } from "next-intl";
+import { useNavStore } from "@/store/navbar";
 
 export function NavbarLikes() {
-    const [averageLike, setAverageLike] = useState(5);
+    const { averageLike, setAverageLike } = useNavStore();
     const t = useTranslations("Navbar");
 
     return (

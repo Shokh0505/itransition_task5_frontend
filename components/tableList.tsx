@@ -22,7 +22,7 @@ export const TableList = ({ song, songID, isCollapsed, handleSelectSong }: Table
                 <td className="px-4 py-3">{song.album}</td>
                 <td className="px-4 py-3">{song.genre}</td>
             </tr>
-            <TableCollapse isOpen={isCollapsed && songID === song.id} />
+            <TableCollapse isOpen={isCollapsed && songID === song.id} song={song} />
         </>
     )
 }

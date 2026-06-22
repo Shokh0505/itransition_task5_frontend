@@ -1,13 +1,22 @@
 import { Faker, en, ru } from "@faker-js/faker";
+import { hashSeed, averageLike } from "@/lib/utils";
 
 export async function GET(request: Request) {
     const params = new URL(request.url).searchParams;
     const seed = params.get("seed");
     const page = params.get("page");
     const language = params.get("lang") || "en";
+    const averageLikes = params.get("averageLikes");
 
     if (!seed) {
         return Response.json({ error: "Seed is required" }, { status: 400 });
+    }
+
+    if (!averageLikes || isNaN(Number(averageLikes))) {
+        return Response.json(
+            { error: "Average likes must be a number" },
+            { status: 400 },
+        );
     }
 
     if (!page || isNaN(Number(page))) {
@@ -31,16 +40,9 @@ export async function GET(request: Request) {
             artist: faker.person.fullName(),
             album: faker.music.album(),
             genre: faker.music.genre(),
+            likes: averageLike(+averageLikes, faker),
         });
     }
 
     return Response.json({ data: songs }, { status: 200 });
-}
-
-function hashSeed(seed: string) {
-    let hash = 0;
-    for (let i = 0; i < seed.length; i++) {
-        hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-    }
-    return hash;
 }
