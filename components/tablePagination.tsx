@@ -8,23 +8,18 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useNavStore } from "@/store/navbar";
+import { usePageStore } from "@/store/pageStore";
 
 export const TablePagination = () => {
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const page = searchParams.get("page") || '1';
-    const currentPage = parseInt(page, 10) || 1;
+    const { page: currentPage, setPage } = usePageStore();
+    const { view } = useNavStore();
+
+    if (view === 'gallery') return null;
 
     const handlePageChange = (newPage: number) => {
-        const params = new URLSearchParams(searchParams);
-        if (newPage) {
-            params.set("page", newPage.toString());
-        } else {
-            params.delete("page");
-        }
-        router.push(`?${params.toString()}`);
-    };
+        setPage(newPage);
+    }
 
     let pages = [];
     if (currentPage <= 2) {
@@ -38,7 +33,7 @@ export const TablePagination = () => {
             <Pagination>
                 <PaginationContent>
                     <PaginationItem>
-                        <PaginationPrevious 
+                        <PaginationPrevious
                             href="#"
                             onClick={(e) => {
                                 e.preventDefault();
@@ -55,7 +50,7 @@ export const TablePagination = () => {
 
                     {pages.map((p) => (
                         <PaginationItem key={p}>
-                            <PaginationLink 
+                            <PaginationLink
                                 href="#"
                                 isActive={currentPage === p}
                                 onClick={(e) => {
@@ -73,7 +68,7 @@ export const TablePagination = () => {
                     </PaginationItem>
 
                     <PaginationItem>
-                        <PaginationNext 
+                        <PaginationNext
                             href="#"
                             onClick={(e) => {
                                 e.preventDefault();

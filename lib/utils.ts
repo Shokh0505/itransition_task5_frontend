@@ -21,6 +21,18 @@ export function seededRandom(seed: number) {
         return (s >>> 0) / 0xffffffff;
     };
 }
+const NOTES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+
+export function generateNotes(seed:number, length: number) {
+    const rnd = seededRandom(seed);
+    const scale = [0,2,4,5,7,9];
+
+    return Array.from({ length }, () => {
+        if (rnd() < 0.15) return null;
+        return NOTES[scale[Math.floor(rnd() * scale.length)]] + '4'; 
+    })
+}
+
 
 export function averageLike(avgLikes: number, faker: Faker) {
     const whole = Math.floor(avgLikes);

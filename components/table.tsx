@@ -8,86 +8,7 @@ import { useNavStore } from "@/store/navbar";
 import { useMusic } from "@/hooks/useMusic";
 import { useSearchParams } from "next/navigation";
 import { useSeedStore } from "@/store/seedStore";
-
-const SONGS = [
-    {
-        id: 1,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-    {
-        id: 2,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-    {
-        id: 3,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-    {
-        id: 4,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-    {
-        id: 5,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-    {
-        id: 6,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-    {
-        id: 7,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-    {
-        id: 8,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-    {
-        id: 9,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-    {
-        id: 10,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-    {
-        id: 11,
-        name: "Alif elfs go",
-        artist: "Elton Smith",
-        album: "Oh, my god",
-        genre: "Rock",
-    },
-]
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export function Table() {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -95,11 +16,10 @@ export function Table() {
     const t = useTranslations("Table");
     const { view } = useNavStore();
     const params = useSearchParams();
-    const page = params.get("page") || 1;
     const { seed } = useSeedStore();
     const language = params.get("lang") || "en";
     const { averageLike } = useNavStore();
-    const { isPending, error, music } = useMusic(page, seed, averageLike, language);
+    const { isPending, error, music, loadMore } = useMusic(seed, averageLike, language);
 
     const handleSelectSong = (id: number) => {
         if (songID === id) {
@@ -127,7 +47,7 @@ export function Table() {
                 </thead>
                 <tbody>
                     {
-                        isPending && (
+                        isPending && music.length === 0 && (
                             <tr>
                                 <td colSpan={6}>
                                     <div className="px-4 py-3">
@@ -138,7 +58,7 @@ export function Table() {
                         )
                     }
                     {
-                        !isPending && !error && view === 'list' && (
+                        !error && view === 'list' && (
                             (
                                 music.map((song) => (
                                     <TableList key={song.id} song={song} songID={songID} isCollapsed={isCollapsed} handleSelectSong={handleSelectSong} />
@@ -148,19 +68,29 @@ export function Table() {
                     }
                     <tr>
                         <td colSpan={6}>
-                            <div className="px-4 py-3 grid grid-cols-3 gap-4">
-                                {
-                                    !isPending && !error && view === 'gallery' && (
-                                        music.map((song) => (
-                                            <TableCard key={song.id} song={song} isActive={song.id === songID} onClick={() => handleSelectSong(song.id)} />
-                                        ))
-                                    )
-                                }
-                            </div>
+
+                            {
+                                !error && (
+                                    <InfiniteScroll
+                                        dataLength={music.length}
+                                        next={loadMore}
+                                        hasMore={true}
+                                        style={{ display: view === 'gallery' ? 'block' : 'none' }}
+                                        loader={isPending && music.length > 0 ? <h4>Loading...</h4> : null}
+                                    >
+                                        <div className="px-4 py-3 grid grid-cols-3 gap-4">
+                                            {music.map((song) => (
+                                                <TableCard key={song.id} song={song} isActive={song.id === songID} onClick={() => handleSelectSong(song.id)} />
+                                            ))}
+                                        </div>
+                                    </InfiniteScroll>
+                                )
+                            }
+
                         </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div >
     )
 }

@@ -1,6 +1,5 @@
 import { generateAlbumCover } from "@/lib/colorGenerator";
 import { useTranslations } from "next-intl";
-import { IoIosMusicalNotes, IoIosPlayCircle } from "react-icons/io";
 
 export interface Song {
     id: number;
@@ -28,7 +27,7 @@ export const TableCard = ({ song, isActive, onClick }: TableCardProps) => {
             `}
         >
             {/* Background decorative gradient */}
-            <div className="absolute -right-10 -top-10 z-0 h-40 w-40 rounded-full bg-gradient-to-br from-primary/20 to-transparent blur-3xl transition-opacity duration-500 group-hover:opacity-100 opacity-40"></div>
+            <div className="absolute -right-10 -top-10 z-0 h-40 w-40 rounded-full bg-linear-to-br from-primary/20 to-transparent blur-3xl transition-opacity duration-500 group-hover:opacity-100 opacity-40"></div>
 
             <div className="relative z-10 flex items-start gap-4">
                 {/* Album Art Placeholder */}
