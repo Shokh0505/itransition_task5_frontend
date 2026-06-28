@@ -4,6 +4,7 @@ import { BiSolidLike } from "react-icons/bi";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import type { Song } from "./tableCard";
+import { generateAlbumCover } from "@/lib/colorGenerator";
 
 interface TableCollapseProps {
     isOpen: boolean;
@@ -29,7 +30,8 @@ export const TableCollapse = ({ isOpen, song }: TableCollapseProps) => {
                         <div className="flex justify-start p-4">
                             {/* Left side - cover/likes */}
                             <div className="flex-1 flex flex-col items-center justify-center">
-                                <Image src="/cover.png" alt="cover" width={350} height={350} />
+                                <div dangerouslySetInnerHTML={{ __html: generateAlbumCover(song) }} />
+                                {/* <Image src="/cover.png" alt="cover" width={350} height={350} /> */}
                                 <div className="mt-2 flex justify-end">
                                     <div className="flex w-fit items-center gap-2 py-3 px-6 bg-slate-100 rounded-lg">
                                         {

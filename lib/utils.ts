@@ -14,6 +14,14 @@ export function hashSeed(seed: string) {
     return hash;
 }
 
+export function seededRandom(seed: number) {
+    let s = seed;
+    return () => {
+        s = (s * 1664525 + 1013904223) & 0xffffffff;
+        return (s >>> 0) / 0xffffffff;
+    };
+}
+
 export function averageLike(avgLikes: number, faker: Faker) {
     const whole = Math.floor(avgLikes);
     const fraction = avgLikes - whole;

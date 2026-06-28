@@ -1,3 +1,4 @@
+import { generateAlbumCover } from "@/lib/colorGenerator";
 import { useTranslations } from "next-intl";
 import { IoIosMusicalNotes, IoIosPlayCircle } from "react-icons/io";
 
@@ -31,8 +32,8 @@ export const TableCard = ({ song, isActive, onClick }: TableCardProps) => {
 
             <div className="relative z-10 flex items-start gap-4">
                 {/* Album Art Placeholder */}
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 text-primary shadow-inner transition-transform duration-300 group-hover:scale-105 group-hover:shadow-primary/20">
-                    <IoIosMusicalNotes className="text-2xl opacity-70 transition-opacity group-hover:opacity-100" />
+                <div className="h-16 w-16 shrink-0 rounded-xl overflow-hidden shadow-inner transition-transform duration-300 group-hover:scale-105">
+                    <div className="h-full w-full" dangerouslySetInnerHTML={{ __html: generateAlbumCover(song) }} />
                 </div>
 
                 <div className="flex-1 space-y-1">
